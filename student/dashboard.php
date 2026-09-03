@@ -91,7 +91,7 @@ if ($_SESSION["role"] !== "student") {
         My Profile
     </a>
 
-    <a href="#">
+    <a href="attendance.php">
         Attendance
     </a>
 
