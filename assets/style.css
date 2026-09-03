@@ -1,0 +1,13 @@
+.dashboard-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+}
+
+.dashboard-links a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+}

@@ -52,22 +52,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION["email"] = $user["email"];
         $_SESSION["role"] = $user["role"];
 
-        header("Location: ../student/dashboard.php");
-        exit;
-
+        if ($user["role"] === "student") {
+            header("Location: ../student/dashboard.php");
+            exit;
+        } elseif ($user["role"] === "faculty") {
+            header("Location: ../faculty/dashboard.php");
+            exit;
+        } elseif ($user["role"] === "admin") {
+            header("Location: ../admin/dashboard.php");
+            exit;
         } else {
-
+            $errors[] = "Invalid user role.";
+        }
+        
+        } else {
             $errors[] = "Incorrect password.";
-
         }
 
     } else {
-
         $errors[] = "No account found with this email.";
-
     }
 
-}
+    }
 }
 
 ?>
