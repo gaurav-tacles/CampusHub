@@ -94,6 +94,7 @@ if ($_SESSION["role"] !== "student") {
     <a href="attendance.php">
         Attendance
     </a>
+    
 
     <a href="#">
         Results

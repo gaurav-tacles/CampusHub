@@ -23,6 +23,48 @@ if ($_SESSION["role"] !== "student") {
 
 $userId = $_SESSION["user_id"];
 
+// Get attendance summary
+$stmt = $conn->prepare(
+    "SELECT
+        COUNT(*) AS total_classes,
+        SUM(status = 'present') AS present_classes,
+        SUM(status = 'absent') AS absent_classes
+     FROM attendance
+     WHERE student_id = ?"
+);
+
+$stmt->bind_param(
+    "i",
+    $userId
+);
+
+$stmt->execute();
+
+$summary = $stmt->get_result()->fetch_assoc();
+
+$totalClasses = $summary["total_classes"];
+$presentClasses = $summary["present_classes"];
+$absentClasses = $summary["absent_classes"];
+
+if ($totalClasses > 0) {
+
+    $attendancePercentage =
+        ($presentClasses / $totalClasses) * 100;
+
+} else {
+
+    $attendancePercentage = 0;
+}
+
+if ($attendancePercentage >= 75) {
+
+    $attendanceStatus = "Good";
+
+} else {
+
+    $attendanceStatus = "Low";
+}
+
 
 // Get student's attendance
 $stmt = $conn->prepare(
@@ -70,6 +112,35 @@ $result = $stmt->get_result();
 
     <h2>My Attendance</h2>
 
+    <div class="attendance-summary">
+
+    <p>
+        <strong>Total Classes:</strong>
+        <?php echo $totalClasses; ?>
+    </p>
+
+    <p>
+        <strong>Present:</strong>
+        <?php echo $presentClasses; ?>
+    </p>
+
+    <p>
+        <strong>Absent:</strong>
+        <?php echo $absentClasses; ?>
+    </p>
+
+    <p>
+        <strong>Attendance:</strong>
+        <?php echo number_format($attendancePercentage, 2); ?>%
+    </p>
+
+    <p>
+        <strong>Attendance Status:</strong>
+        <?php echo htmlspecialchars($attendanceStatus); ?>
+    </p>
+
+</div>
+
     <table border="1" cellpadding="10">
 
         <tr>
@@ -85,8 +156,9 @@ $result = $stmt->get_result();
 
                     <td>
                         <?php
-                        echo htmlspecialchars(
-                            $attendance["attendance_date"]
+                        echo date(
+                            "d-m-Y",
+                            strtotime($attendance["attendance_date"])
                         );
                         ?>
                     </td>
