@@ -79,8 +79,14 @@ if ($_SESSION["role"] !== "admin") {
     <a href="results.php">Manage Results</a>
 
     <br><br>
-    
+
         <a href="assignments.php">Faculty Assignments</a>
+
+    <br><br>
+    
+    <a href="academic_assignments.php">
+        Academic Assignments
+    </a>
 
     <br><br>
 
