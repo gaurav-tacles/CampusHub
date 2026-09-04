@@ -103,6 +103,10 @@ if ($_SESSION["role"] !== "student") {
     <a href="notices.php">
         Notices
     </a>
+    
+    <a href="assignments.php">
+        Assignments
+    </a>
 
     <a href="../auth/logout.php">
         Logout

@@ -94,6 +94,14 @@ if ($_SESSION["role"] !== "faculty") {
             Results
         </a>
 
+        <a href="assignments.php">
+            Assignments
+        </a>
+
+        <a href="assignment_submissions.php">
+            Assignment Submissions
+        </a>
+
         <a href="../auth/logout.php">
             Logout
         </a>
