@@ -74,6 +74,13 @@ if ($_SESSION["role"] !== "admin") {
         Manage Notices
     </a>
 
+    <br><br>
+
+    <a href="results.php">Manage Results</a>
+
+    <br><br>
+    
+        <a href="assignments.php">Faculty Assignments</a>
 
     <br><br>
 

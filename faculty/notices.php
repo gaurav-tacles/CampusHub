@@ -115,7 +115,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 if (isset($_GET["success"]) && $_GET["success"] === "1") {
     $message = "Notice posted successfully.";
     $messageType = "success";
+
+    if (isset($_GET["deleted"]) && $_GET["deleted"] === "1") {
+    $message = "Faculty assignment removed successfully.";
+    $messageType = "success";
 }
+
+if (isset($_GET["delete_error"]) && $_GET["delete_error"] === "1") {
+    $message = "Assignment could not be removed.";
+    $messageType = "error";
+}
+
+}
+
 
 
 $stmt = $conn->prepare(
