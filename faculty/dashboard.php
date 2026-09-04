@@ -82,6 +82,10 @@ if ($_SESSION["role"] !== "faculty") {
             Notices
         </a>
 
+        <a href="my_subjects.php">
+            My Subjects
+        </a>
+
         <a href="../auth/logout.php">
             Logout
         </a>

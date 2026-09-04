@@ -96,7 +96,7 @@ if ($_SESSION["role"] !== "student") {
     </a>
     
 
-    <a href="#">
+    <a href="results.php">
         Results
     </a>
 
