@@ -23,9 +23,17 @@ if ($_SESSION["role"] !== "student") {
 
 // Get all notices
 $stmt = $conn->prepare(
-    "SELECT id, title, message, created_at
-     FROM notices
-     ORDER BY created_at DESC"
+    "SELECT
+        n.id,
+        n.title,
+        n.message,
+        n.created_at,
+        u.name AS creator_name,
+        u.role AS creator_role
+     FROM notices n
+     INNER JOIN users u
+        ON n.created_by = u.id
+     ORDER BY n.created_at DESC"
 );
 
 $stmt->execute();
@@ -76,6 +84,13 @@ $result = $stmt->get_result();
 
                 <p>
                     <?php echo nl2br(htmlspecialchars($notice["message"])); ?>
+                </p>
+
+                <p>
+                    Posted by:
+                    <?php echo htmlspecialchars($notice["creator_name"]); ?>
+
+                    (<?php echo ucfirst(htmlspecialchars($notice["creator_role"])); ?>)
                 </p>
 
                 <small>

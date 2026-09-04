@@ -18,6 +18,8 @@ if ($_SESSION["role"] !== "faculty") {
     exit;
 }
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +78,7 @@ if ($_SESSION["role"] !== "faculty") {
             Students
         </a>
 
-        <a href="#">
+        <a href="notices.php">
             Notices
         </a>
 
