@@ -86,6 +86,14 @@ if ($_SESSION["role"] !== "faculty") {
             My Subjects
         </a>
 
+        <a href="marks.php">
+            Marks
+        </a>
+
+        <a href="results.php">
+            Results
+        </a>
+
         <a href="../auth/logout.php">
             Logout
         </a>
