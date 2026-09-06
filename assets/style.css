@@ -438,3 +438,298 @@
         font-size: 25px;
     }
 }
+
+/* =========================
+   STUDENT ACADEMIC INFO
+   ========================= */
+
+.student-academic-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.academic-info-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.academic-info-card span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.academic-info-card strong {
+    display: block;
+    font-size: 17px;
+    color: #111827;
+}
+
+@media (max-width: 800px) {
+    .student-academic-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   STUDENT ATTENDANCE
+   ========================= */
+
+.student-attendance-overview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.student-attendance-stat {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.student-attendance-stat span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.student-attendance-stat strong {
+    font-size: 28px;
+    color: #111827;
+}
+
+@media (max-width: 800px) {
+    .student-attendance-overview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .student-attendance-overview {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   STUDENT ASSIGNMENT
+   ========================= */
+
+.student-assignment-overview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.student-assignment-stat {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.student-assignment-stat span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.student-assignment-stat strong {
+    font-size: 28px;
+    color: #111827;
+}
+
+@media (max-width: 800px) {
+    .student-assignment-overview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .student-assignment-overview {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   STUDENT RESULTS
+   ========================= */
+
+.student-results-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.student-result-stat {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.student-result-stat span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.student-result-stat strong {
+    font-size: 28px;
+    color: #111827;
+}
+
+@media (max-width: 700px) {
+    .student-results-overview {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   STUDENT RECENT NOTICES
+   ========================= */
+
+.student-notices {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.student-notice-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.student-notice-content h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    color: #111827;
+}
+
+.student-notice-content p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.student-notice-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.student-empty-state {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 25px;
+    text-align: center;
+    color: #6b7280;
+}
+
+@media (max-width: 700px) {
+
+    .student-notice-meta {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+}
+
+/* =========================
+   STUDENT RECENT ASSIGNMENTS
+   ========================= */
+
+.student-assignments {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.student-assignment-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.student-assignment-main {
+    flex: 1;
+}
+
+.student-assignment-main h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    color: #111827;
+}
+
+.student-assignment-subject {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.student-assignment-faculty {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.student-assignment-info {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.student-assignment-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.student-assignment-info span {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.student-assignment-info strong {
+    font-size: 13px;
+    color: #374151;
+}
+
+.assignment-status {
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+
+    .student-assignment-card {
+        flex-direction: column;
+    }
+
+    .student-assignment-info {
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+}
