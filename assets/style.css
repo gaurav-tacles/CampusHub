@@ -1002,3 +1002,252 @@
     border: 1px dashed #ccc;
     border-radius: 12px;
 }
+
+/* =========================================
+   CAMPUSHUB LANDING PAGE
+   ========================================= */
+
+.landing-page {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.15), transparent 35%),
+        #f7f8fc;
+
+    color: #111827;
+}
+
+.landing-container {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+}
+
+.landing-card {
+    width: 100%;
+    max-width: 680px;
+
+    padding: 65px 55px;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.10),
+        0 5px 20px rgba(15, 23, 42, 0.05);
+
+    backdrop-filter: blur(15px);
+
+    animation: landingAppear 0.6s ease;
+}
+
+.brand-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 32px;
+
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
+
+    border-radius: 20px;
+
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.25);
+}
+
+.brand-name {
+    margin: 0 0 15px;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    color: #4f46e5;
+}
+
+.landing-card h1 {
+    margin: 0;
+
+    font-size: clamp(40px, 6vw, 64px);
+
+    line-height: 1.08;
+
+    letter-spacing: -2px;
+
+    font-weight: 800;
+
+    color: #111827;
+}
+
+.landing-card h1 span {
+    background: linear-gradient(90deg, #4f46e5, #2563eb);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.landing-description {
+    max-width: 500px;
+
+    margin: 25px auto 35px;
+
+    font-size: 17px;
+    line-height: 1.7;
+
+    color: #6b7280;
+}
+
+.landing-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+}
+
+.landing-actions a {
+    text-decoration: none;
+}
+
+.btn {
+    min-height: 52px;
+
+    padding: 0 24px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    border-radius: 14px;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.btn-primary {
+    color: white;
+
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
+
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 15px 30px rgba(79, 70, 229, 0.32);
+}
+
+.btn-secondary {
+    color: #374151;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px);
+
+    background: #f9fafb;
+
+    border-color: #d1d5db;
+
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.landing-footer {
+    margin-top: 38px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    font-size: 13px;
+
+    color: #9ca3af;
+}
+
+@keyframes landingAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .landing-container {
+        padding: 18px;
+    }
+
+    .landing-card {
+        padding: 45px 24px;
+
+        border-radius: 22px;
+    }
+
+    .landing-card h1 {
+        font-size: 42px;
+
+        letter-spacing: -1.5px;
+    }
+
+    .landing-description {
+        font-size: 15px;
+    }
+
+    .landing-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}
