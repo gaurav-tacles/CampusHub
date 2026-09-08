@@ -1,35 +1,14 @@
 <?php
 
 session_start();
+
 require_once "../config/db.php";
 
-$userId = $_SESSION["user_id"];
-
-$stmt = $conn->prepare(
-    "SELECT
-        users.name,
-        users.email,
-        student_profiles.student_id,
-        student_profiles.course,
-        student_profiles.semester
-     FROM users
-     LEFT JOIN student_profiles
-        ON users.id = student_profiles.user_id
-     WHERE users.id = ?"
-);
-
-$stmt->bind_param(
-    "i",
-    $userId
-);
-
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-$student = $result->fetch_assoc();
-
-$stmt->close();
+/*
+|--------------------------------------------------------------------------
+| STUDENT ACCESS PROTECTION
+|--------------------------------------------------------------------------
+*/
 
 if (!isset($_SESSION["user_id"])) {
 
@@ -45,11 +24,42 @@ if ($_SESSION["role"] !== "student") {
 
 }
 
+$student_id = $_SESSION["user_id"];
+
+
+/*
+|--------------------------------------------------------------------------
+| UNREAD NOTIFICATION COUNT
+|--------------------------------------------------------------------------
+*/
+
+$notification_stmt = $conn->prepare("
+    SELECT COUNT(*) AS unread_count
+    FROM notifications
+    WHERE user_id = ?
+      AND is_read = FALSE
+");
+
+$notification_stmt->bind_param(
+    "i",
+    $student_id
+);
+
+$notification_stmt->execute();
+
+$notification_result = $notification_stmt->get_result();
+
+$notification_data = $notification_result->fetch_assoc();
+
+$unread_notifications =
+    (int) $notification_data["unread_count"];
+
+$notification_stmt->close();
+
+
 /* =========================
    STUDENT INFORMATION
    ========================= */
-
-$student_id = $_SESSION["user_id"];
 
 $stmt = $conn->prepare("
     SELECT
@@ -64,15 +74,23 @@ $stmt = $conn->prepare("
       AND u.role = 'student'
 ");
 
-$stmt->bind_param("i", $student_id);
+$stmt->bind_param(
+    "i",
+    $student_id
+);
+
 $stmt->execute();
 
 $student = $stmt->get_result()->fetch_assoc();
+
 $stmt->close();
 
 if (!$student) {
+
     die("Student profile not found.");
+
 }
+
 
 /* =========================
    ATTENDANCE SUMMARY
@@ -87,22 +105,39 @@ $stmt = $conn->prepare("
     WHERE student_id = ?
 ");
 
-$stmt->bind_param("i", $student_id);
+$stmt->bind_param(
+    "i",
+    $student_id
+);
+
 $stmt->execute();
 
 $attendance = $stmt->get_result()->fetch_assoc();
+
 $stmt->close();
 
-$total_attendance = (int) $attendance["total"];
-$present_attendance = (int) ($attendance["present"] ?? 0);
-$absent_attendance = (int) ($attendance["absent"] ?? 0);
+
+$total_attendance =
+    (int) $attendance["total"];
+
+$present_attendance =
+    (int) ($attendance["present"] ?? 0);
+
+$absent_attendance =
+    (int) ($attendance["absent"] ?? 0);
+
 
 if ($total_attendance > 0) {
+
     $attendance_percentage =
         ($present_attendance / $total_attendance) * 100;
+
 } else {
+
     $attendance_percentage = 0;
+
 }
+
 
 /* =========================
    ASSIGNMENT SUMMARY
@@ -111,26 +146,42 @@ if ($total_attendance > 0) {
 $stmt = $conn->prepare("
     SELECT
         COUNT(DISTINCT a.id) AS total_assignments,
+
         COUNT(DISTINCT CASE
-            WHEN sub.id IS NOT NULL THEN a.id
+            WHEN sub.id IS NOT NULL
+            THEN a.id
         END) AS submitted_assignments,
+
         COUNT(DISTINCT CASE
-            WHEN sub.status = 'graded' THEN a.id
+            WHEN sub.status = 'graded'
+            THEN a.id
         END) AS graded_assignments
+
     FROM assignments a
+
     INNER JOIN faculty_subjects fs
         ON a.faculty_subject_id = fs.id
+
     LEFT JOIN assignment_submissions sub
         ON a.id = sub.assignment_id
         AND sub.student_id = ?
+
     WHERE fs.semester = ?
 ");
 
-$stmt->bind_param("ii", $student_id, $student["semester"]);
+$stmt->bind_param(
+    "ii",
+    $student_id,
+    $student["semester"]
+);
+
 $stmt->execute();
 
-$assignment_summary = $stmt->get_result()->fetch_assoc();
+$assignment_summary =
+    $stmt->get_result()->fetch_assoc();
+
 $stmt->close();
+
 
 $total_assignments_student =
     (int) $assignment_summary["total_assignments"];
@@ -142,27 +193,42 @@ $graded_assignments =
     (int) $assignment_summary["graded_assignments"];
 
 $pending_assignments =
-    $total_assignments_student - $submitted_assignments;
+    $total_assignments_student -
+    $submitted_assignments;
 
-    /* =========================
+
+/* =========================
    RESULTS SUMMARY
    ========================= */
 
 $stmt = $conn->prepare("
     SELECT
         COUNT(*) AS total_results,
-        COALESCE(SUM(marks), 0) AS total_marks,
-        COALESCE(AVG(marks), 0) AS average_marks
+
+        COALESCE(SUM(marks), 0)
+            AS total_marks,
+
+        COALESCE(AVG(marks), 0)
+            AS average_marks
+
     FROM results
+
     WHERE student_id = ?
       AND status = 'published'
 ");
 
-$stmt->bind_param("i", $student_id);
+$stmt->bind_param(
+    "i",
+    $student_id
+);
+
 $stmt->execute();
 
-$result_summary = $stmt->get_result()->fetch_assoc();
+$result_summary =
+    $stmt->get_result()->fetch_assoc();
+
 $stmt->close();
+
 
 $total_published_results =
     (int) $result_summary["total_results"];
@@ -173,7 +239,8 @@ $total_marks_obtained =
 $average_marks =
     (float) $result_summary["average_marks"];
 
-    /* =========================
+
+/* =========================
    RECENT NOTICES
    ========================= */
 
@@ -185,18 +252,24 @@ $stmt = $conn->prepare("
         n.created_at,
         u.name AS posted_by,
         u.role
+
     FROM notices n
+
     INNER JOIN users u
         ON n.created_by = u.id
+
     ORDER BY n.created_at DESC
+
     LIMIT 5
 ");
 
 $stmt->execute();
 
-$recent_notices = $stmt->get_result();
+$recent_notices =
+    $stmt->get_result();
 
 $stmt->close();
+
 
 /* =========================
    RECENT ASSIGNMENTS
@@ -207,11 +280,15 @@ $stmt = $conn->prepare("
         a.id,
         a.title,
         a.due_date,
+
         s.subject_name,
         s.subject_code,
+
         u.name AS faculty_name,
+
         sub.status AS submission_status,
         sub.marks
+
     FROM assignments a
 
     INNER JOIN faculty_subjects fs
@@ -242,7 +319,8 @@ $stmt->bind_param(
 
 $stmt->execute();
 
-$recent_assignments = $stmt->get_result();
+$recent_assignments =
+    $stmt->get_result();
 
 $stmt->close();
 
@@ -566,6 +644,20 @@ $stmt->close();
     <a href="notices.php">
         Notices
     </a>
+
+    <a href="notifications.php">
+
+    🔔 Notifications
+
+    <?php if ($unread_notifications > 0): ?>
+
+        <strong>
+            <?= $unread_notifications ?>
+        </strong>
+
+    <?php endif; ?>
+
+</a>
     
     <a href="assignments.php">
         Assignments

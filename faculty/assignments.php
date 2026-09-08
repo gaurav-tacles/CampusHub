@@ -3,6 +3,7 @@
 session_start();
 
 require_once "../config/db.php";
+require_once "../config/notifications.php";
 
 // Only faculty can access this page
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "faculty") {
@@ -175,9 +176,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["create_assignment"]))
 
             if ($insert_stmt->execute()) {
 
-                $message = "Assignment created successfully.";
+    // Get the newly created assignment ID
+    $assignment_id = $conn->insert_id;
 
-            } else {
+    /*
+    |----------------------------------------------------------------------
+    | Notify all students in the assignment's semester
+    |----------------------------------------------------------------------
+    */
+
+    $student_sql = "
+        SELECT u.id
+        FROM users u
+
+        INNER JOIN student_profiles sp
+            ON u.id = sp.user_id
+
+        INNER JOIN faculty_subjects fs
+            ON fs.id = ?
+
+        WHERE u.role = 'student'
+          AND sp.semester = fs.semester
+    ";
+
+    $student_stmt = $conn->prepare($student_sql);
+
+    $student_stmt->bind_param(
+        "i",
+        $faculty_subject_id
+    );
+
+    $student_stmt->execute();
+
+    $students_result = $student_stmt->get_result();
+
+    while ($student = $students_result->fetch_assoc()) {
+
+        createNotification(
+            $conn,
+            (int) $student["id"],
+            "New Assignment",
+            "A new assignment \"" . $title . "\" has been posted.",
+            "assignment"
+        );
+    }
+
+    $student_stmt->close();
+
+    $message = "Assignment created successfully.";
+
+} else {
 
                 $error = "Failed to create assignment.";
 

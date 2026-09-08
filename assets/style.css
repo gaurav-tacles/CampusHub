@@ -938,3 +938,67 @@
     font-size: 12px;
     color: #9ca3af;
 }
+
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
+
+.notification-actions {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.notification-card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.notification-card.unread {
+    border-left: 4px solid #000;
+}
+
+.notification-card.read {
+    opacity: 0.75;
+}
+
+.notification-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-title-row h3 {
+    margin: 0;
+}
+
+.notification-content p {
+    margin: 10px 0;
+}
+
+.notification-content small {
+    color: #777;
+}
+
+.unread-badge {
+    padding: 4px 8px;
+    border-radius: 20px;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+}
+
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    border: 1px dashed #ccc;
+    border-radius: 12px;
+}
